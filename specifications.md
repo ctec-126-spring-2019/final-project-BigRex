@@ -1,13 +1,10 @@
 #CTEC 126 spring 2019 - Final Project, or Rabbit Hole \#69
 
-
 ##Bruno George
-
 
 ### 5/29/19
 
 ##Specifications:
-
 
 The goal of this project is to demonstrate client-side Machine Learning using
 the [TensorFlow.js](https://www.tensorflow.org/js/) JavaScript library. It will
