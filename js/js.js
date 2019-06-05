@@ -1,6 +1,6 @@
 
 $("#canvas").outerHeight($(window).height() - $("#canvas").offset().top - Math.abs($("#canvas").outerHeight(true) - $("#canvas").outerHeight()));
-$(window).on("resize", function() {
+$(window).on("resize", function () {
     $("#canvas").outerHeight($(window).height() - $("#canvas").offset().top - Math.abs($("#canvas").outerHeight(true) - $("#canvas").outerHeight()));
 });
 
@@ -55,52 +55,52 @@ function myFunction() {
 // From:  https://codepen.io/caisq/pen/maEVNm
 
 // async function run() {
-    // Simplest case: Line chart with only one series.
+// Simplest case: Line chart with only one series.
 //     let values = [{ x: 1, y: 20 }, { x: 2, y: 30 }, { x: 3, y: 5 }, { x: 4, y: 12 }];
 //     tfvis.render.linechart({ values }, document.getElementById('plot1'), {
 //         width: 400
 //  });
 // }
 //     run();
- 
- 
- class="show-script">{
+
+
+class="show-script" > {
     const classNames = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
 
     function doPrediction(testDataSize = 500) {
-        const testData = data.nextTestBatch(testDataSize);
-        const testxs = testData.xs.reshape([testDataSize, 28, 28, 1]);
-        const labels = testData.labels.argMax([-1]);
-        const preds = model.predict(testxs).argMax([-1]);
-        testxs.dispose();
-        return [preds, labels];
-    }
+    const testData = data.nextTestBatch(testDataSize);
+    const testxs = testData.xs.reshape([testDataSize, 28, 28, 1]);
+    const labels = testData.labels.argMax([-1]);
+    const preds = model.predict(testxs).argMax([-1]);
+    testxs.dispose();
+    return [preds, labels];
+}
 
-    async function showAccuracy() {
-        const [preds, labels] = doPrediction();
-        const classAccuracy = await tfvis.metrics.perClassAccuracy(labels, preds);
-        const container = {
-            name: 'Accuracy',
-            tab: 'Evaluation'
-        };
-        tfvis.show.perClassAccuracy(container, classAccuracy, classNames);
-        labels.dispose();
-    }
+async function showAccuracy() {
+    const [preds, labels] = doPrediction();
+    const classAccuracy = await tfvis.metrics.perClassAccuracy(labels, preds);
+    const container = {
+        name: 'Accuracy',
+        tab: 'Evaluation'
+    };
+    tfvis.show.perClassAccuracy(container, classAccuracy, classNames);
+    labels.dispose();
+}
 
-    async function showConfusion() {
-        const [preds, labels] = doPrediction();
-        const confusionMatrix = await tfvis.metrics.confusionMatrix(labels, preds);
-        const container = {
-            name: 'Confusion Matrix',
-            tab: 'Evaluation'
-        };
-        tfvis.render.confusionMatrix(container, {
-            values: confusionMatrix,
-            tickLabels: classNames
-        });
-        labels.dispose();
-    }
+async function showConfusion() {
+    const [preds, labels] = doPrediction();
+    const confusionMatrix = await tfvis.metrics.confusionMatrix(labels, preds);
+    const container = {
+        name: 'Confusion Matrix',
+        tab: 'Evaluation'
+    };
+    tfvis.render.confusionMatrix(container, {
+        values: confusionMatrix,
+        tickLabels: classNames
+    });
+    labels.dispose();
+}
 
-    document.querySelector('#show-accuracy').addEventListener('click', () => showAccuracy());
-    document.querySelector('#show-confusion').addEventListener('click', () => showConfusion());
+document.querySelector('#show-accuracy').addEventListener('click', () => showAccuracy());
+document.querySelector('#show-confusion').addEventListener('click', () => showConfusion());
 }
