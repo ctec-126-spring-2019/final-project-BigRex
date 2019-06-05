@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- favicon src: https://www.kissclipart.com/rabbit-png-clipart-hare-easter-bunny-9uk0os/ -->
+<link rel="icon" href="img/bunnyFavicon.png">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rabbit Hole 69</title>
+    <link rel="stylesheet" href="https://storage.googleapis.com/tfjs-vis/mnist/dist/tufte.3682e6f8.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/css.css">
+    <!-- The mnist dataset is a standin. I'm still coming up to speed with TensorFlow -->
+
+    <style>
+        .lang-javascript {
+            width: 60%;
+            padding-left: 15px;
+            font-family: monospace;
+        }
+
+        script.show-script {
+            display: block;
+            max-width: 720px;
+            background-color: floralwhite;
+            font-family: "Lucida Console", Monaco, "Courier New", Courier, monospace;
+            font-size: 12px;
+            /* margin-left: -40px; */
+            white-space: pre;
+            margin-top: 2em;
+        }
+
+        code {
+            background-color: #eee;
+            padding: 2px 4px 2px 4px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- from : https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_navbar&stacked=h -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Rabbit Hole #69</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="finalProject.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li class="active"><a href="examples.html">Examples</a></li>
+                <script></script>
+            </ul>
+        </div>
+    </nav>
+
+    <header>
+        <h2>Examples</h2>
+    </header>
+
+    <!-- /**
+ * @license
+ * Copyright 2018 Google LLC. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * =============================================================================
+ */ -->
+
+    <body>
+        <article>
+            <h3 style="color:gold">Note: the code on this page is very fragile and is being used only to give some idea
+                of what TensorFlow can do.</h3>
+            <h3>Visualizing training with tfjs-vis</h3>
+
+            <section>
+                <p>
+                    tfjs-vis is a small set of visualization utilities to make it easier to understand what is going on
+                    with your
+                    tfjs models.
+                    It is designed in a way to work along side regular web apps. This page will use some of the features
+                    of tfjs to
+                    illustrate
+                    what is going on with a convolutional model that will be trained (in the browser) to recognize
+                    handwritten
+                    digits.
+
+                </p>
+                <h4 style="color:gold">
+                    Note: I won't be using the MNIST database in the final deliverable although we are using the MNIST
+                    dataset for this example.
+                </h4>
+
+                <p>
+                    tfjs-vis provides 2 main things:
+                    <ol>
+                        <li>A place to put visualizations that tries not to interfere with your web page. We call this
+                            place a
+                            <em>visor.</em>
+                        </li>
+                        <li>Some built in visualizations that we have found to be useful when working with TensorFlow.js
+                        </li>
+                    </ol>
+                </p>
+            </section>
+
+            <section>
+                <h4 style="color:gold">Another note: you have to click the buttons in order to see what is going on.<h4>
+                        <h4>The Visor</h4>
+                        <p>
+                            Let's take a look at the first. Calling <code>tfvis.visor()</code> will create a visor if it
+                            doesn't
+                            exist or
+                            return
+                            the existing one. Click the button below to show the
+                            <em>visor.</em>
+                        </p>
+                        <button id="show-visor">Show Visor</button>
+                        <p>
+                            Notice the panel that is now displayed on the right. It hovers over your pages content and
+                            shouldn't
+                            disturb
+                            the flow of
+                            your page's DOM Elements. You can see a few controls for showing or hiding the visor, but by
+                            default
+                            it also
+                            supports
+                            the following keyboard shortcuts:
+                            <ul>
+                                <li>
+                                    <strong>`</strong> (backtick): Shows or hides the visor</li>
+                                <li>
+                                    <strong>~</strong> (tilde, shift+backtick): Toggles betweeen the two sizes the visor
+                                    supports</li>
+                            </ul>
+                            The API allows you to disable (unbind) these keyboard shortcuts.
+                        </p>
+
+                        <h4>Surfaces</h4>
+                        <p>
+                            To add content to the visor we need a
+                            <em>surface</em>. We make a surface with the following function call:
+                           <!--  <script type="text" class="show-script">
+                  tfVis.visor().surface({name: 'My First Surface', tab: 'Input Data'});
+                </script> -->
+                        </p>
+                        <button id="make-first-surface">Make a surface</button>
+                        <p>
+                            To create a surface we must give is a name, we can also optionally specify a tab name that
+                            the
+                            surface should
+                            be put on.
+                            <code>visor().surface()</code> allows us to create a surface if it doesn't exist or fetch it
+                            if it
+                            does. This
+                            API
+                            returns an object that has a pointer to 3 DOM elements:
+                            <ul>
+                                <li>
+                                    <strong>container:</strong> The containing DOM element for the surface</li>
+                                <li>
+                                    <strong>label:</strong> The label element </li>
+                                <li>
+                                    <strong>drawArea:</strong> A DOM Element where we can render visualizations or other
+                                    content.
+                                </li>
+                            </ul>
+                        </p>
+            </section>
+
+            <section>
+                <h4>Our Data</h4>
+                <p>
+                    I will provide data for three different training sessions. It is data that I captured several years
+                    ago but it will be a good test for TensorFlow.
+                    The data is three different images captured as video signals, which we will apply Machine Learning
+                    techniques to and ultimately display a Machine Learned image found in the data.
+                    The image below is an example of one video scan line. TensorFlow will have to find the pattern of
+                    the scan line and build an array that will display a picture on the page.
+                </p>
+                <button id="load-data">Load Data</button><br>
+                &nbsp;&nbsp;&nbsp;
+                <img src="img/Figure_3.png" />
+                <!-- I don't know why this is so shifted to the right...just lucky I guess. -->
+                <div id="show-examples" disabled=""></div>
+
+                <p>
+                    The code to render these examples isn't built into tfjs. But because you have full access to the DOM
+                    element
+                    for each surface,
+                    you can draw whatever you would like into them. This allows easy integration of custom
+                    visualizations into the
+                    visor.
+
+                </p>
+
+
+            </section>
+
+            <section>
+                <h3>Training Our Model</h3>
+                <p>
+                    Our goal is to build a fram from video signals using Machine Learning.  The example below is a real time example of the MNIST data being learned in real time.
+                </p>
+
+                <p>First let us define a helper function to do our training.</p>
+
+                <script class="show-script">async function train(model, data, fitCallbacks) {
+                        const BATCH_SIZE = 64;
+                        const trainDataSize = 500;
+                        const testDataSize = 100;
+                        const [trainXs, trainYs] = tf.tidy(() => {
+                            const d = data.nextTrainBatch(trainDataSize);
+                            return [d.xs.reshape([trainDataSize, 28, 28, 1]), d.labels];
+                        });
+                        const [testXs, testYs] = tf.tidy(() => {
+                            const d = data.nextTestBatch(testDataSize);
+                            return [d.xs.reshape([testDataSize, 28, 28, 1]), d.labels];
+                        });
+                        return model.fit(trainXs, trainYs, {
+                            batchSize: BATCH_SIZE,
+                            validationData: [testXs, testYs],
+                            epochs: 10,
+                            shuffle: true,
+                            callbacks: fitCallbacks
+                        });
+                    }</script>
+
+                <p>
+                    We can use the <code>show.fitCallbacks</code> method to get functions that will plot the loss after
+                    every batch
+                    and
+                    epoch.
+                </p>
+
+                <button id="start-training-1" disabled="">Start Training</button>
+
+                <script
+                    class="show-script">async function watchTraining() {
+                            const metrics = ['loss', 'val_loss', 'acc', 'val_acc'];
+                            const container = {
+                                name: 'show.fitCallbacks',
+                                tab: 'Training',
+                                styles: {
+                                    height: '1000px'
+                                }
+                            };
+                            const callbacks = tfvis.show.fitCallbacks(container, metrics);
+                            return train(model, data, callbacks);
+                        }
+
+                        document.querySelector('#start-training-1').addEventListener('click', () => watchTraining());</script>
+
+                <p>
+                    Another option is to wait for the training to complete and render the loss curve when it is done.
+                </p>
+
+                <button id="start-training-2" disabled="">Start Training</button>
+
+
+            </section>
+
+            <section>
+                <h3>Evaluating Our Model</h3>
+                <p>
+                    The Machine Learned image will be displayed below. There would be a more sophisticated placeholder
+                    if I hadn't spent so much time breaking the code.
+                </p>
+                <img src="img/7280CanonCamellia.0000.png"><img>
+
+                <!--  <p><button id="show-accuracy">Show per-class accuracy</button></p>
+                <p><button id="show-confusion">Show confusion matrix</button></p> -->
+                <script src="https://storage.googleapis.com/tfjs-vis/mnist/dist/mnist.58d86013.js"></script>
+
+            </section>
+
+        </article>
+
+
+        <footer>
+            <p class="bottom">All of the material in this version is placeholder and will be replaced with origonal
+                content...except the
+                bunnies...</p>
+        </footer>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"> </script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script>src = "js/js.js"</script>
+
+    </body>
+
+</html>

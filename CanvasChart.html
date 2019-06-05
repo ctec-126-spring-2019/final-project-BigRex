@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style type="text/css">
+    h3 {
+        font-size: 1.4em;
+    }
+
+    h4 {
+        font-size: 1.2em;
+    }
+
+    h3,
+    h4 {
+        text-align: center;
+    }
+
+    #border {
+        border: solid 1px black;
+    }
+
+    body {
+        margin-left: 3px;
+    }
+
+    #canvas {
+        border: solid 1px blue;
+        width: 100%;
+    }
+    .plot {
+  display: inline-block;
+  margin: 4px;
+}
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@0.4.0"> </script>
+
+</head>
+
+<body>
+    <h3>Making a Chart</h3>
+    <div class="plot" id="plot1"></div>
+<script>
+    // From:  https://codepen.io/caisq/pen/maEVNm
+    // async function run() {
+            // Simplest case: Line chart with only one series.
+            let values = [{ x: 1, y: 20 }, { x: 2, y: 30 }, { x: 3, y: 5 }, { x: 4, y: 12 }];
+            tfvis.render.linechart({ values }, document.getElementById('plot1'), {
+                width: 400
+            });
+        // }
+        //     run();
+    </script>
+</html>

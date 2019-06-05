@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Responsive Canvas</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>h3 {
+        font-size: 1.4em;
+    }
+
+    h4 {
+        font-size: 1.2em;
+    }
+
+    h3,
+    h4 {
+        text-align: center;
+    }
+
+    #border {
+        border: solid 1px black;
+    }
+
+    body {
+        margin-left: 3px;
+    }
+
+    #canvas {
+        border: solid 1px blue;
+        width: 100%;
+    }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h3>Responsve Canvas Holding an Image Created From Data</h3>
+        <h4>Create an img element with canvas.</h4>
+    </header>
+    <div class="row">
+        <div class="col-xs-3 col-sm-3" id="border">content left</div>
+        <div class="col-xs-6 col-sm-6" id="border">
+            canvas
+            <canvas id="canvas"></canvas>
+            <!-- <div class="col-xs-3 col-sm-3" id="border">content right</div> -->
+        </div>
+        <div class="col-xs-3 col-sm-3" id="border">
+            <button onclick="myFunction()">This is Supposed to be Below the Center Canvas</button>
+            <p style="color:red">Click the button to draw on the canvas.</p>
+            <img src="img/7280CanonCamellia.0000.png" alt="camilia" class="img-responsive" />
+        </div>
+        
+        <script type="text/javascript">
+            // For Responsive Canvas:  https://jsfiddle.net/1a11p3ng/3/
+            $("#canvas").outerHeight($(window).height() - $("#canvas").offset().top - Math.abs($("#canvas").outerHeight(true) - $("#canvas").outerHeight()));
+            $(window).on("resize", function() {
+                $("#canvas").outerHeight($(window).height() - $("#canvas").offset().top - Math.abs($("#canvas").outerHeight(true) - $("#canvas").outerHeight()));
+            });
+
+            // Image from Array:  http://jsfiddle.net/m1erickson/956kC/
+            //Image inside canvas:  https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_canvas_get
+            // var canvas = document.createElement("canvas");
+
+            function myFunction() {
+                var canvas = document.getElementById("canvas");
+                var ctx = canvas.getContext("2d");
+                //ctx.fillStyle = "#FF0000";
+                //ctx.fillRect(20, 20, 150, 100);
+                //}
+                //var ctx = canvas.getContext("2d");
+
+                // size the canvas to your desired image
+                canvas.width = 40;
+                canvas.height = 30;
+
+                // get the imageData and pixel array from the canvas
+                var imgData = ctx.getImageData(0, 0, 40, 30);
+                var data = imgData.data;
+                console.log(data);
+
+                // manipulate some pixel elements
+                for (var i = 0; i < data.length; i += 4) {
+                    data[i] = 255; // set every red pixel element to 255
+                    data[i + 3] = 255; // make this pixel opaque
+                }
+
+                // put the modified pixels back on the canvas
+                ctx.putImageData(imgData, 0, 0);
+
+                // create a new img object
+                var image = new Image();
+
+                // set the img.src to the canvas data url
+                image.src = canvas.toDataURL();
+            }
+
+            // append the new img object to the page
+            </script>
+</body>
+
+</html>
